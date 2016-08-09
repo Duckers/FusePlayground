@@ -1,0 +1,40 @@
+<App>
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+
+		var pages = Observable(
+			{ text: "FOLLOWING", tabWidth: "3*", template: "foo", something: "The first page!" },
+			{ text: "FOO", tabWidth: "1*", something: "The second page!"  },
+			{ text: "BAR", tabWidth: "1*", template: "bar", something: "The third page!" },
+			{ text: "MOO", tabWidth: "1*", template: "bar", something: "The fourth page!"}
+		);
+
+		module.exports = {
+			pages: pages
+		}
+	</JavaScript>
+
+	<mr60fps.FancyTabs Pages="{pages}">
+		<Page ux:Template="foo">
+			<StackPanel>
+				<Text>This is foo !</Text>
+				<Text Value="{something}" />
+			</StackPanel>
+		</Page>
+		<Page ux:Template="bar">
+			<StackPanel>
+				<Text>This is bar</Text>
+				<Text Value="{something}" />
+			</StackPanel>
+		</Page>
+
+<!--
+		<Rectangle ux:Template="TabButton" CornerRadius="10" Color="#fff3" Margin="10">
+			<Text Value="{text}" Alignment="Center" />
+			<WhilePressed>
+				<Change TabButton.Color="#eefc" Duration="0.1"  DurationBack="0.2"/>
+			</WhilePressed>
+		</Rectangle>
+-->
+	</mr60fps.FancyTabs>
+</App>

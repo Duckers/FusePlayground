@@ -1,0 +1,75 @@
+<Panel ux:Class="mr60fps.FancyTabs">
+	<object ux:Property="Pages" />
+	<DockPanel>
+		<JavaScript>
+			module.exports = {
+				pages: 
+					this.Pages.inner().notNull().map(function(x, index) {
+						x.column = index; 
+						return x;
+					}),
+
+				columns: 
+					this.Pages.map(function(pages) {
+						var s = "";
+						if (pages)
+							pages.forEach(function(x) {
+								if (s.length === 0) { s = x.tabWidth; }
+								else { s += "," + x.tabWidth; }
+							});
+						return s;
+					})
+
+					// Nicer Fuse 0.25 version of the above - replace with this when released
+					/*
+				columns: this.Pages.inner().notNull()
+					.pick("tabWidth")
+					.aggregate(function(a, b) { 
+						return a + "," + b;
+					});*/
+			}
+		</JavaScript>
+		<Panel>
+			<PageControl ux:Name="pageControl" Color="White">
+				<Each Items="{pages}">
+					<Page ux:Name="page">
+						<AlternateRoot ParentNode="tabs">
+							<Panel Column="{column}" ux:Name="tab">
+								<Each Count="1" TemplateSource="this" TemplateKey="TabButton">
+									<Text Opacity="0.7" ux:Name="tabtext" Color="White" Alignment="Center" Value="{text}">
+										<Font File="Assets/couture/couture-bld.otf" />
+										<Scaling ux:Name="tabtextScaling" Factor="0.8" />
+										<ActivatingAnimation>
+											<Change tabtext.Opacity="1" Duration="1" />
+											<Change tabtextScaling.Factor="1" Duration="1" />
+										</ActivatingAnimation>
+									</Text>
+								</Each>
+								<Tapped>
+									<Set pageControl.Active="page" />
+								</Tapped>
+							</Panel>
+						</AlternateRoot>
+						<ExitingAnimation>
+							<Move Target="marker" X="-0.5" RelativeTo="Size" RelativeNode="tab" Duration="1" />
+						</ExitingAnimation>
+						<EnteringAnimation>
+							<Move Target="marker" X="0.5" RelativeTo="Size" RelativeNode="tab" Duration="1" />
+						</EnteringAnimation>
+						<Each Count="1" TemplateSource="this" TemplateKey="{template}">
+							<Text Value="{text}" Alignment="Center" />
+						</Each>
+					</Page>
+				</Each>
+			</PageControl>
+			<Panel Height="5" Alignment="Top">
+				<DropShadow Angle="0"/>
+				<Rectangle ux:Name="marker" Width="20" Height="11" CornerRadius="4" Color="White" Alignment="TopCenter" Y="-4" />
+				<Panel Color="White" />
+			</Panel>
+		</Panel>
+		<Panel Color="#1Af" Height="64" Dock="Top">
+			<Grid Columns="{columns}" ux:Name="tabs" DefaultColumn="0" />
+		</Panel>
+	</DockPanel>
+</Panel>
