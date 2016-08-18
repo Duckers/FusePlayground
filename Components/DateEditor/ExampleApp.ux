@@ -1,0 +1,22 @@
+<App>
+	<Panel>
+		<JavaScript>
+			var Observable = require("FuseJS/Observable");
+
+			var date = Observable(new Date());
+
+			module.exports = {  
+				date: date,
+				dateString: date.map(function(x) {
+					return x.toString();
+				})
+			};
+		</JavaScript>
+		
+
+		<StackPanel>
+			<DateEditor Date="{date}" />
+			<Text Value="{dateString}" />
+		</StackPanel>
+	</Panel>
+</App>

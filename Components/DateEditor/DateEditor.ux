@@ -1,0 +1,24 @@
+<Panel ux:Class="DateEditor">
+	<object ux:Property="Date" />
+
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+		var date = this.Date.inner();
+
+		// NOTE: The `twoWayMap()` feature is not yet released as of Fuse 0.24.
+		// Expecting this to be released in Fuse 0.26
+		module.exports = {
+			day: date.twoWayMap(function(dt) { return dt.getDate(); }, function(d, dt) { dt.setDate(d); return dt; }),
+			month: date.twoWayMap(function(dt) { return dt.getMonth(); }, function(m, dt) { dt.setMonth(m); return dt; }),
+			year: date.twoWayMap(function(dt) { return dt.getFullYear(); }, function(y, dt) { dt.setFullYear(y); return dt; })
+		};
+
+	</JavaScript>
+
+	<StackPanel>
+		<TextBox Value="{day}"/>
+		<TextBox Value="{month}" />
+		<TextBox Value="{year}"  />
+	</StackPanel>
+
+</Panel>
