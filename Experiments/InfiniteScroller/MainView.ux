@@ -1,0 +1,51 @@
+<App>
+	<iOS.StatusBarConfig Style="Light" />
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+
+		var friends = Observable();		
+
+		function loadMore() {
+			for (var i = 0; i < 30; i++) {
+				friends.add({
+					name: "Generic friend " + friends.length,
+					avatar: "Assets/avatar" + (Math.floor(Math.random()*4)+1) + ".png"
+				})
+			}
+
+			if (friends.length > 60) {
+				friends.removeRange(0, 30);
+			}
+		}
+
+		loadMore();
+
+		module.exports = { friends, loadMore };
+	</JavaScript>
+
+	<DockPanel>
+		<DockPanel Dock="Top" Color="#18f">
+			<StatusBarBackground Dock="Top" />
+			<Panel Height="48">
+				<Text  Color="White" FontSize="20" Alignment="Center">Friends</Text>
+			</Panel>
+		</DockPanel>
+		<ScrollView LayoutMode="PreserveVisual">
+			<StackPanel>
+				<Each Items="{friends}">
+					<Panel>
+						<Deferred>
+							<DockPanel>
+								<Image Width="64" Margin="16,4,32,4" File="{avatar}" Dock="Left" />
+								<Text Value="{name}" Alignment="CenterLeft"/>
+							</DockPanel>
+						</Deferred>
+					</Panel>
+				</Each>
+			</StackPanel>
+			<Scrolled To="End" Within="300">
+				<Callback Handler="{loadMore}" />
+			</Scrolled>
+		</ScrollView>
+	</DockPanel>
+</App>
