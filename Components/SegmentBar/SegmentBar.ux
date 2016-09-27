@@ -1,0 +1,53 @@
+<Panel ux:Class="mr60fps.SegmentBar" Alignment="VerticalCenter" Height="32" Margin="20">
+	<string ux:Property="Selected" />
+	<object ux:Property="Options" />
+
+	<JavaScript>
+
+		var srcOptions = this.Options.inner();
+
+		var options = srcOptions.map(function(option, index) {
+			return {
+				isFirst: index === 0,
+				isLast: index === srcOptions.length -1,
+				option: option
+			}
+		});
+
+		var optionCount = options.count();
+
+		module.exports = { options, optionCount };
+
+	</JavaScript>
+
+	<Rectangle ux:Class="mr60fps.SegmentButton" HitTestMode="LocalBounds">
+		<string ux:Property="Label" />
+		<Selectable Value="{Property Label}" />
+		<Text ux:Name="text" Alignment="Center" Color="#18f" Value="{Property Label}" />
+		<Stroke Color="#18f" />
+
+		<WhileTrue Value="{isFirst}">
+			<Change this.CornerRadius="8,0,0,8" />
+		</WhileTrue>
+		<WhileTrue Value="{isLast}">
+			<Change this.CornerRadius="0,8,8,0" />
+		</WhileTrue>
+
+		<WhileSelected>
+			<Change text.Color="White" Duration="0.2" />
+			<Change this.Color="#18f" Duration="0.2" />
+		</WhileSelected>
+		<Tapped>
+			<ToggleSelection />
+		</Tapped>
+	</Rectangle>
+
+
+	<Grid ColumnCount="{optionCount}">
+		<Selection Value="{Property Selected}" MaxCount="1" MinCount="1"/>
+		<Each Items="{options}">
+			<mr60fps.SegmentButton Label="{option}" />
+		</Each>
+	</Grid>
+
+</Panel>

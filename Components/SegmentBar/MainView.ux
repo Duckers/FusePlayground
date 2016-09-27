@@ -1,0 +1,20 @@
+<App Background="Black">
+
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+
+		var options = ["ONE", "TWO", "THREE"];
+
+		var selected = Observable("THREE");
+
+		selected.onValueChanged(module, function(v) {
+			console.log(v);
+		})
+
+		module.exports = { options, selected }
+
+	</JavaScript>
+
+	<mr60fps.SegmentBar Options="{options}" Selected="{selected}" />
+
+</App>
