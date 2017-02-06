@@ -3,7 +3,7 @@
 	<JavaScript>
 		var Observable = require("FuseJS/Observable");
 
-		var options = ["ONE", "TWO", "THREE"];
+		var options = Observable("ONE", "TWO", "THREE");
 
 		var selected = Observable("THREE");
 
